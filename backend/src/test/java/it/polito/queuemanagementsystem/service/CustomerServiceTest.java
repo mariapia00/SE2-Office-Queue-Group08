@@ -57,9 +57,7 @@ class CustomerServiceTest {
     void getCustomerById_ShouldThrowException_WhenCustomerDoesNotExist() {
         when(customerRepository.findById(mockCustomer.getId())).thenReturn(Optional.empty());
 
-        assertThrows(CustomerNotFoundException.class, () -> {
-            customerService.getCustomerById(mockCustomer.getId());
-        });
+        assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerById(mockCustomer.getId()));
 
         verify(customerRepository, times(1)).findById(mockCustomer.getId());
     }

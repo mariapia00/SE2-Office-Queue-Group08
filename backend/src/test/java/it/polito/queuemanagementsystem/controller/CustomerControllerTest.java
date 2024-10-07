@@ -1,5 +1,6 @@
 package it.polito.queuemanagementsystem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polito.queuemanagementsystem.dto.in.CreateCustomerDTO;
 import it.polito.queuemanagementsystem.model.Customer;
 import it.polito.queuemanagementsystem.service.CustomerService;
@@ -44,9 +45,12 @@ class CustomerControllerTest {
         CreateCustomerDTO createCustomerDTO = new CreateCustomerDTO("John Doe", "john.doe@example.com", 30);
         when(customerService.saveCustomer(any(Customer.class))).thenReturn(mockCustomer);
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        String customerDtoJson = objectMapper.writeValueAsString(createCustomerDTO);
+
         mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"name\": \"John Doe\", \"email\": \"john.doe@example.com\", \"age\": 30 }"))
+                        .content(customerDtoJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(mockCustomer.getId())))
                 .andExpect(jsonPath("$.name", is(mockCustomer.getName())))
