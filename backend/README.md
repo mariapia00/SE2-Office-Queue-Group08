@@ -52,7 +52,7 @@ and restart the database.
 3. To **stop** the PostgreSQL database, run:
 
    ```powershell
-   ./manage-database.ps1 start
+   ./manage-database.ps1 stop
     ```
 4. To **restart** the PostgreSQL database, run:
 
