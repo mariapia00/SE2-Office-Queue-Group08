@@ -104,7 +104,7 @@ export default function GetTicketComponent(props: {
           QR code for ticket:
           <div className="mt-3 text-center">
             <QRCodeSVG
-              value={`https://a459-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`}
+              value={`https://4422-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`}
               size={128}
             />
           </div>
