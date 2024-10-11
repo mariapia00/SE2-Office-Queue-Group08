@@ -115,7 +115,7 @@ export default tseslint.config({
       "queueLength": 2
     },
     {
-      "serviceType": "service2"
+      "serviceType": "service2",
       "queueLength": 2
     }]
     ```
