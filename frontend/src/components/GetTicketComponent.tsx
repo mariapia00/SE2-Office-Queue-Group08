@@ -51,7 +51,7 @@ export default function GetTicketComponent(props: { services: string[] }) {
           <Col>
             <Form.Control
               type="text"
-              placeholder="Search throush services"
+              placeholder="Search through our services"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
