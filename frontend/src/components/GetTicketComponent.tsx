@@ -8,12 +8,16 @@ import {
   Button,
 } from "react-bootstrap";
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import "./GetTicketComponent.css";
 
-export default function GetTicketComponent(props: { services: string[] }) {
+export default function GetTicketComponent(props: {
+  services: string[];
+  ticket: string;
+  handleTicket: (service: string) => void;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [serviceSelected, setServiceSelected] = useState("");
-  const [ticket, setTicket] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const filteredServices = props.services.filter((service) =>
@@ -30,7 +34,7 @@ export default function GetTicketComponent(props: { services: string[] }) {
     // Call the API to get the ticket
     // const ticket = await getTicket(serviceSelected);
     return () => {
-      setTicket(service);
+      props.handleTicket(service);
       setShowModal(true);
     };
   };
@@ -99,7 +103,10 @@ export default function GetTicketComponent(props: { services: string[] }) {
         <Modal.Body>
           QR code for ticket:
           <div className="mt-3 text-center">
-            <img src="https://via.placeholder.com/150" alt="QR code" />
+            <QRCodeSVG
+              value={`https://a459-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`}
+              size={128}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
