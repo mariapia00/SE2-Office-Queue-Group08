@@ -48,3 +48,78 @@ export default tseslint.config({
   },
 })
 ```
+## API 
+
+- GET `api/services`
+  - **description**: retrieve all the services handled by the office
+  - **request parameters**: *none*
+  - **response**: `200 OK` (success)
+  - **response body content**: 
+    ```JSON
+    [ 
+      { "serviceType": "service1" },
+      { "serviceType": "service2" },
+      { "serviceType": "service3" }
+    ]
+    ```
+  - **error response**:
+    - `500 Internal Server Error` (generic error)
+
+
+- POST `api/customer/newticket`
+  - **description**: retrieve the wait list code for the service type selected by the customer 
+  - **request parameters**: *none*
+  - **request body**: 
+    ```JSON
+    { "serviceType": "service1"}
+    ```
+  - **response**:`200 OK`
+  - **response body content**: 
+    ```JSON
+    { 
+      "ticketID":1,
+      "waitingTime": 5 
+    }
+    ```
+  - **error response**:
+     - `500 Internal Server Error` (generic error)
+
+- POST `api/customer/next`
+  - **description**: retrieve the next customer to be handled by the officer
+  - **request parameters**: *none*
+  - **request body**: 
+    ```JSON
+    { 
+      "counterID":3
+    }
+    ```
+  - **response**: `200 OK`
+  - **response body content**:
+    ```JSON
+    { 
+      "ticketID":1,
+      "counterID":3
+    }
+    ```
+  - **error response**:
+    - `500 Internal Server Error` (generic error)
+
+- GET `api/customer/queueslength`
+  - **description**: retrieve the queues length for each servuce type
+  - **request parameters**: *none*
+  - **response**: `200 OK`
+  - **response body content**:
+    ```JSON
+    [{ 
+      "serviceType": "service1",
+      "queueLength": 2
+    },
+    {
+      "serviceType": "service2"
+      "queueLength": 2
+    }]
+    ```
+  - **error response**:
+    - `500 Internal Server Error` (generic error)
+
+
