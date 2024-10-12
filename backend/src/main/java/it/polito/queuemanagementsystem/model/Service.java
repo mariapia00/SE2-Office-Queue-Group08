@@ -1,28 +1,25 @@
 package it.polito.queuemanagementsystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Table(name = "SERVICE")
 public class Service {
 
-    //This class include information about service and his own queue
+    //This class include information about service and its own queue
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    private Integer serviceId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long serviceId;
+
+    @Column(nullable = false)
     private String serviceName;
-    private Float averageServiceTime;
-    private Integer queueLength;
-    private Integer lastTicketNumber;
+    private Integer averageServiceTime;
+    private Integer queueLength = 0; // Default to 0 for a new service
+    private Integer lastTicketNumber = 0; // Default to 0 for a new service
 }

@@ -4,20 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
-@IdClass(CounterServiceKey.class)
 public class CounterService {
-    @Id
+
+    @EmbeddedId
+    private CounterServiceId id;
+
     @ManyToOne
-    @JoinColumn(name = "serviceId")
-    private Service service;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "counterId")
+    @MapsId("counterId")
+    @JoinColumn(name = "counter_id")
     private Counter counter;
+
+    @ManyToOne
+    @MapsId("serviceId")
+    @JoinColumn(name = "service_id")
+    private Service service;
 }

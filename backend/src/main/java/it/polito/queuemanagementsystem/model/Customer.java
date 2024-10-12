@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Table(name = "CUSTOMER")
 public class Customer {
 
     @Id
