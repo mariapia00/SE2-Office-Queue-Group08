@@ -14,7 +14,14 @@ const services = [
   "Service 3",
   "Service 4",
   "Service 5",
+  "Service 6",
+  "Service 7",
+  "Service 8",
+  "Service 9",
   "Service 10",
+  "Service 11",
+  "Service 12",
+  "Service 13"
 ]; // Example services
 
 function App() {

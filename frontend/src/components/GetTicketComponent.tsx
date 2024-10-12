@@ -1,12 +1,4 @@
-import {
-  Col,
-  Container,
-  ListGroup,
-  Row,
-  Form,
-  Modal,
-  Button,
-} from "react-bootstrap";
+import { Col, Container, Row, Form, Modal, Button } from "react-bootstrap";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import "./GetTicketComponent.css";
@@ -41,6 +33,7 @@ export default function GetTicketComponent(props: {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setServiceSelected("");
   };
 
   return (
@@ -55,33 +48,32 @@ export default function GetTicketComponent(props: {
           <Col>
             <Form.Control
               type="text"
-              placeholder="Search throush services"
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </Col>
         </Row>
-        <Row className="w-100 flex-grow-1 overflow-auto">
-          <Col>
-            <ListGroup className="w-100">
-              {filteredServices.map((service, index) => (
-                <ListGroup.Item
-                  action
-                  key={index}
+        <Container className="w-100 flex-grow-1 overflow-auto">
+          <Row>
+            {filteredServices.map((service, index) => (
+              <Col key={index} xs={6} md={3} className="mb-3">
+                <ServicesComponent
+                  service={service}
+                  imageUrl={"https://via.placeholder.com/150"}
                   onClick={handleSelectService(service)}
-                  active={service === serviceSelected}
-                >
-                  {service}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Col>
-        </Row>
+                  isSelected={service === serviceSelected}
+                />
+              </Col>
+            ))}
+          </Row>
+        </Container>
         <Row className="w-100 d-flex justify-content-center mb-3">
           <Col className="d-flex justify-content-center">
             <Button
               className="btn btn-primary btn-lg"
               onClick={handleGetTicket(serviceSelected)}
+              disabled={!serviceSelected}
             >
               Get ticket
             </Button>
@@ -104,7 +96,7 @@ export default function GetTicketComponent(props: {
           QR code for ticket:
           <div className="mt-3 text-center">
             <QRCodeSVG
-              value={`https://4422-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`}
+              value={`https://4422-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`} // Update the URL every time you run ngrok
               size={128}
             />
           </div>
@@ -116,5 +108,40 @@ export default function GetTicketComponent(props: {
         </Modal.Footer>
       </Modal>
     </>
+  );
+}
+
+function ServicesComponent(props: {
+  service: string;
+  imageUrl: string;
+  onClick: () => void;
+  isSelected: boolean;
+}) {
+  return (
+    <Button
+      className={`service-button ${props.isSelected ? "selected" : ""}`}
+      onClick={props.onClick}
+      style={{
+        width: "100%",
+        height: "150px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "10px",
+        border: props.isSelected ? "2px solid #007bff" : "1px solid #ddd",
+        borderRadius: "8px",
+        cursor: "pointer",
+        backgroundColor: props.isSelected ? "#e9f5ff" : "#fff",
+        color: "black",
+      }}
+    >
+      <img
+        src={props.imageUrl}
+        alt={props.service}
+        style={{ maxHeight: "80px", marginBottom: "10px" }}
+      />
+      <span>{props.service}</span>
+    </Button>
   );
 }
