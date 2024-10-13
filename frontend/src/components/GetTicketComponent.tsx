@@ -68,7 +68,7 @@ export default function GetTicketComponent(props: {
             ))}
           </Row>
         </Container>
-        <Row className="w-100 d-flex justify-content-center mb-3">
+        <Row className="w-100 d-flex justify-content-center mb-3 mt-3">
           <Col className="d-flex justify-content-center">
             <Button
               className="btn btn-primary btn-lg"
