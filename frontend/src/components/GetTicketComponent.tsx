@@ -54,7 +54,7 @@ export default function GetTicketComponent(props: {
             />
           </Col>
         </Row>
-        <Container className="w-100 flex-grow-1 overflow-auto">
+        <Container className="services-container w-100 flex-grow-1 overflow-auto">
           <Row>
             {filteredServices.map((service, index) => (
               <Col key={index} xs={6} md={3} className="mb-3">
@@ -102,8 +102,8 @@ export default function GetTicketComponent(props: {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseModal}>
-            Close
+          <Button variant="success" onClick={handleCloseModal}>
+            Done
           </Button>
         </Modal.Footer>
       </Modal>
