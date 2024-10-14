@@ -8,20 +8,15 @@ import GetTicketComponent from "./components/GetTicketComponent";
 import TicketComponent from "./components/TicketComponent";
 import { useState } from "react";
 
+const domain = "https://fowl-light-macaque.ngrok-free.app";
+
 const services = [
-  "Service 1",
-  "Service 2",
-  "Service 3",
-  "Service 4",
-  "Service 5",
-  "Service 6",
-  "Service 7",
-  "Service 8",
-  "Service 9",
-  "Service 10",
-  "Service 11",
-  "Service 12",
-  "Service 13"
+  "Package Delivery",
+  "Tax Payments",
+  "Public Administration Payments",
+  "Banking Services",
+  "Passport Issuance",
+  "Telecommunication Services",
 ]; // Example services
 
 function App() {
@@ -42,14 +37,12 @@ function App() {
             services={services}
             ticket={ticket}
             handleTicket={handleTicket}
+            domain={domain}
           />
         }
       />
       <Route path="*" element={<NotFoundComponent />} />
-      <Route
-        path="/tickets/:ticketId"
-        element={<TicketComponent />}
-      />
+      <Route path="/tickets/:ticketId" element={<TicketComponent />} />
     </Routes>
   );
 }

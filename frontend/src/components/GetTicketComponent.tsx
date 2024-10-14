@@ -7,6 +7,7 @@ export default function GetTicketComponent(props: {
   services: string[];
   ticket: string;
   handleTicket: (service: string) => void;
+  domain: string;
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [serviceSelected, setServiceSelected] = useState("");
@@ -96,7 +97,7 @@ export default function GetTicketComponent(props: {
           QR code for ticket:
           <div className="mt-3 text-center">
             <QRCodeSVG
-              value={`https://4422-130-192-232-225.ngrok-free.app/tickets/${props.ticket}`} // Update the URL every time you run ngrok
+              value={props.domain + `/tickets/${props.ticket}`} // Update the URL every time you run ngrok
               size={128}
             />
           </div>
