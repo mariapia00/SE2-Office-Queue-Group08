@@ -2,12 +2,12 @@ package it.polito.queuemanagementsystem.controller;
 
 import it.polito.queuemanagementsystem.dto.request.GetTicketRequestDTO;
 import it.polito.queuemanagementsystem.dto.response.GetTicketResponseDTO;
+import it.polito.queuemanagementsystem.dto.response.QueueStatusDTO;
 import it.polito.queuemanagementsystem.service.ServiceService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tickets")
@@ -26,5 +26,10 @@ public class ServiceController {
         return ResponseEntity.ok(ticketResponse);
     }
 
-
+    // Endpoint to get the current queue lengths for all services
+    @GetMapping("/queues/status")
+    public ResponseEntity<List<QueueStatusDTO>> getQueuesStatus() {
+        List<QueueStatusDTO> queuesStatus = serviceService.getQueuesStatus();
+        return ResponseEntity.ok(queuesStatus); // Return 200 OK with the list of queue statuses
+    }
 }

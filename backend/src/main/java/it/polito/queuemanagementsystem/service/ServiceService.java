@@ -2,6 +2,7 @@ package it.polito.queuemanagementsystem.service;
 
 
 import it.polito.queuemanagementsystem.dto.response.GetTicketResponseDTO;
+import it.polito.queuemanagementsystem.dto.response.QueueStatusDTO;
 import it.polito.queuemanagementsystem.model.Counter;
 import it.polito.queuemanagementsystem.model.CounterService;
 import it.polito.queuemanagementsystem.model.Service;
@@ -84,5 +85,13 @@ public class ServiceService {
 
         // Return formatted time as "XXhXXmXXs"
         return String.format("%02dh%02dm%02ds", hours, minutes, seconds);
+    }
+
+    // Method to get the current queue lengths for all services
+    public List<QueueStatusDTO> getQueuesStatus() {
+        // Retrieve all services from the repository and map them to DTOs
+        return serviceRepository.findAll().stream()
+                .map(service -> new QueueStatusDTO(service.getServiceName(), service.getQueueLength()))
+                .toList();
     }
 }
