@@ -13,6 +13,19 @@ const getAllServices = async (): Promise<Service[]> => {
         });
 };
 
+const getQueueStatus = async () => {
+    try {
+        const response = await fetch(BASEURL + '/v1/services/queues/status');
+        if(!response.ok) {
+            throw new Error('Failed to fetch queue status');
+        }
+        const data = await response.json();
+        return data;
+    } catch(error) {
+        console.error('Error fetching queue status:', error);
+        return null;
+    }
+}
 
 const getTicket = async (serviceId: string): Promise<Ticket> => {
     console.log("Service type: ", serviceId);
@@ -60,6 +73,7 @@ const API = {
     getAllServices,
     getTicket,
     //callNextClient
+    getQueueStatus,
 };
 
 export default API;

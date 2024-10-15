@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, ListGroup, Spinner } from 'react-bootstrap'; // Importa i componenti Bootstrap
+import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
+import API from '../API';
 
 const NextCustomerComponent = () => {
-    const [queues, setQueues] = useState([
-        { serviceId: 1, serviceName: 'Service A', queueLength: 3 },
-        { serviceId: 2, serviceName: 'Service B', queueLength: 5 },
-        { serviceId: 3, serviceName: 'Service C', queueLength: 2 },
-    ]);
+    const [queues, setQueues] = useState([]);
     const [currentTicket, setCurrentTicket] = useState({ ticketId: 101, counterID: 1 });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); 
 
-    const fetchQueuesLength = () => {
-        setLoading(false); // Usa dati statici, quindi setta loading a false
+    const fetchQueuesLength = async () => {
+        setLoading(true); 
+        const data = await API.getQueueStatus();
+        setQueues(data); 
+        setLoading(false); 
+        console.log(data);
     };
 
     const handleCallNextCustomer = () => {
@@ -41,8 +42,8 @@ const NextCustomerComponent = () => {
                             <Card.Subtitle className="mt-3 mb-2">Queue Lengths:</Card.Subtitle>
                             <ListGroup>
                                 {queues.map((queue) => (
-                                    <ListGroup.Item key={queue.serviceId}>
-                                        Service: {queue.serviceName} - Length: {queue.queueLength}
+                                    <ListGroup.Item key={queue.serviceName}>
+                                        {queue.serviceName} - Length: {queue.queueLength}
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
@@ -55,3 +56,4 @@ const NextCustomerComponent = () => {
 };
 
 export default NextCustomerComponent;
+
