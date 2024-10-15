@@ -1,7 +1,7 @@
 package it.polito.queuemanagementsystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polito.queuemanagementsystem.dto.in.CreateCustomerDTO;
+import it.polito.queuemanagementsystem.dto.request.CreateCustomerDTO;
 import it.polito.queuemanagementsystem.model.Customer;
 import it.polito.queuemanagementsystem.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;

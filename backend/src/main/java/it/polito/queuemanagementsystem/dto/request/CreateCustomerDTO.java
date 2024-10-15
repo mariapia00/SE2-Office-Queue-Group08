@@ -1,4 +1,4 @@
-package it.polito.queuemanagementsystem.dto.in;
+package it.polito.queuemanagementsystem.dto.request;
 
 import it.polito.queuemanagementsystem.model.Customer;
 
