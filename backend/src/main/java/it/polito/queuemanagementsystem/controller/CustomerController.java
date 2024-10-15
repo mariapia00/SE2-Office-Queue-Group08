@@ -7,7 +7,7 @@ import it.polito.queuemanagementsystem.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Customer")
+@Tag(name = "Customers", description = "Customers API")
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerController {

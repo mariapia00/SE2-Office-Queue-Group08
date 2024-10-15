@@ -1,6 +1,8 @@
 package it.polito.queuemanagementsystem.service;
 
 import it.polito.queuemanagementsystem.dto.response.GetTicketResponseDTO;
+import it.polito.queuemanagementsystem.dto.response.QueueStatusResponseDTO;
+import it.polito.queuemanagementsystem.dto.response.ServiceResponseDTO;
 import it.polito.queuemanagementsystem.model.Counter;
 import it.polito.queuemanagementsystem.model.CounterService;
 import it.polito.queuemanagementsystem.model.CounterServiceId;
@@ -13,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,4 +89,87 @@ class ServiceServiceTest {
         // Verifying that the serviceRepository.save() was never called
         verify(serviceRepository, times(0)).save(any(Service.class));
     }
+
+    @Test
+    void getQueueStatus_ShouldReturnQueueStatusDTOs() {
+        // Mocking Service entities
+        Service service1 = new Service(1L, "Package Delivering", "PKG", 15, 5, 0);
+        Service service2 = new Service(2L, "Tax Payment", "TAX", 20, 3, 0);
+        Service service3 = new Service(3L, "Passport", "PPT", 30, 4, 0);
+
+        List<Service> mockServices = Arrays.asList(service1, service2, service3);
+
+        // Mocking the serviceRepository call to return the list of services
+        when(serviceRepository.findAll()).thenReturn(mockServices);
+
+        // Calling the method under test
+        List<QueueStatusResponseDTO> queueStatuses = serviceService.getQueuesStatus();
+
+        // Verify that the repository method was called once
+        verify(serviceRepository, times(1)).findAll();
+
+        // Verify the result
+        assertEquals(3, queueStatuses.size());
+        assertEquals("Package Delivering", queueStatuses.get(0).serviceName());
+        assertEquals(5, queueStatuses.get(0).queueLength());
+        assertEquals("Tax Payment", queueStatuses.get(1).serviceName());
+        assertEquals(3, queueStatuses.get(1).queueLength());
+        assertEquals("Passport", queueStatuses.get(2).serviceName());
+        assertEquals(4, queueStatuses.get(2).queueLength());
+    }
+
+    @Test
+    void getQueueStatus_ShouldReturnEmptyList_WhenNoServices() {
+        // Mocking the serviceRepository call to return an empty list
+        when(serviceRepository.findAll()).thenReturn(List.of());
+
+        // Calling the method under test
+        List<QueueStatusResponseDTO> queueStatuses = serviceService.getQueuesStatus();
+
+        // Verify that the repository method was called once
+        verify(serviceRepository, times(1)).findAll();
+
+        // Verify the result is an empty list
+        assertEquals(0, queueStatuses.size());
+    }
+
+    @Test
+    void getAllServices_ShouldReturnServiceDTOs() {
+        // Mocking the repository to return Service entities
+        Service service1 = new Service(1L, "Package Delivering", "PKG", 15, 0, 0);
+        Service service2 = new Service(2L, "Tax Payments", "TAX", 20, 0, 0);
+        Service service3 = new Service(3L, "Passport Services", "PPT", 30, 0, 0);
+
+        List<Service> mockServices = Arrays.asList(service1, service2, service3);
+
+        when(serviceRepository.findAll()).thenReturn(mockServices);
+
+        // Calling the service method
+        List<ServiceResponseDTO> serviceDTOs = serviceService.getAllServices();
+
+        // Verifying that serviceRepository.findAll() was called once
+        verify(serviceRepository, times(1)).findAll();
+
+        // Asserting the returned values
+        assertEquals(3, serviceDTOs.size());
+        assertEquals("Package Delivering", serviceDTOs.get(0).serviceName());
+        assertEquals("Tax Payments", serviceDTOs.get(1).serviceName());
+        assertEquals("Passport Services", serviceDTOs.get(2).serviceName());
+    }
+
+    @Test
+    void getAllServices_ShouldReturnEmptyList_WhenNoServices() {
+        // Mock the repository to return an empty list
+        when(serviceRepository.findAll()).thenReturn(List.of());
+
+        // Calling the service method
+        List<ServiceResponseDTO> serviceDTOs = serviceService.getAllServices();
+
+        // Verifying that serviceRepository.findAll() was called once
+        verify(serviceRepository, times(1)).findAll();
+
+        // Asserting the result is an empty list
+        assertEquals(0, serviceDTOs.size());
+    }
+
 }
