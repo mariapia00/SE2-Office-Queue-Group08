@@ -44,12 +44,7 @@ export default function GetTicketComponent(props: {
         </Row>
         <Row className="w-100 mb-3">
           <Col>
-            <Form.Control
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            
           </Col>
         </Row>
         <Container className="services-container w-100 flex-grow-1 overflow-auto">
