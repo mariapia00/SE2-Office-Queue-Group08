@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 
-export default function TicketComponent() {
+export default function TicketComponent(props: { ticketId: string; waitingTime: string }) {
   const { ticketId } = useParams<{ ticketId: string }>();
 
   const handleDownloadPDF = () => {
@@ -41,21 +41,21 @@ export default function TicketComponent() {
     <Container className="d-flex flex-column align-items-center justify-content-center full-height">
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h1>Your ticket number is: 111</h1>
+          <h1>Your ticket number is: {props.ticketId} </h1>
         </Col>
       </Row>
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h2>Estimated waiting time: 3 minutes</h2>
+          <h2>Estimated waiting time:  {props.waitingTime} minutes</h2>
         </Col>
       </Row>
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h3>Service: {ticketId}</h3>
+          <h3>Service: {props.ticketId}</h3>
         </Col>
       </Row>
       <Row>
-        <QRCodeSVG className="mt-3 " value={ticketId || ""} />
+        <QRCodeSVG className="mt-3 " value={props.ticketId || ""} />
       </Row>
       <Row>
         <Button variant="primary" className="mt-3" onClick={handleDownloadPDF}>

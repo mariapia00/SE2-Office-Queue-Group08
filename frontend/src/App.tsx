@@ -2,30 +2,42 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import API from "./API";
 import NotFoundComponent from "./components/NotFoundComponent";
 import GetTicketComponent from "./components/GetTicketComponent";
 import TicketComponent from "./components/TicketComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Service from "./model/Service";
 
-const domain = "https://fowl-light-macaque.ngrok-free.app";
+const domain = "https://edbc-2001-b07-ac9-a10b-2521-b9c8-6006-6670.ngrok-free.app";
 
+/*
 const services = [
-  "Package Delivery",
-  "Tax Payments",
-  "Public Administration Payments",
-  "Banking Services",
-  "Passport Issuance",
-  "Telecommunication Services",
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
 ]; // Example services
-
+*/
 function App() {
   const [ticket, setTicket] = useState("");
+  const [waitingTime, setWaitingTime] = useState("");
+  const [services, setServices] = useState<Service[]>([]);
+
+  
+  useEffect(() => {
+    API.getAllServices()
+    .then((services) => setServices(
+      services.map((service => new Service(service.serviceId, service.serviceName)))
+    ));
+  } , []);
 
   const handleTicket = async (service: string) => {
-    // Call the API to get the ticket
-    // const ticket = await getTicket(service);
-    setTicket(service.replace(/\s+/g, ""));
+    const ticketResponse = await API.getTicket(service);
+    setTicket(String(ticketResponse.ticketId));
+    setWaitingTime(String(ticketResponse.waitingTime));
   };
 
   return (
@@ -36,13 +48,17 @@ function App() {
           <GetTicketComponent
             services={services}
             ticket={ticket}
+            waitingTime={waitingTime}
             handleTicket={handleTicket}
             domain={domain}
           />
         }
       />
       <Route path="*" element={<NotFoundComponent />} />
-      <Route path="/tickets/:ticketId" element={<TicketComponent />} />
+      <Route path="/tickets/:ticketId" element={
+        <TicketComponent ticketId={ticket} waitingTime={waitingTime}
+          />
+          } />
     </Routes>
   );
 }

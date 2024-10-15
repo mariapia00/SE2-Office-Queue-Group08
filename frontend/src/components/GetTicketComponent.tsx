@@ -2,10 +2,12 @@ import { Col, Container, Row, Form, Modal, Button } from "react-bootstrap";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import "./GetTicketComponent.css";
+import Service from "../model/Service";
 
 export default function GetTicketComponent(props: {
-  services: string[];
+  services: Service[];
   ticket: string;
+  waitingTime: string;
   handleTicket: (service: string) => void;
   domain: string;
 }) {
@@ -13,19 +15,14 @@ export default function GetTicketComponent(props: {
   const [serviceSelected, setServiceSelected] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const filteredServices = props.services.filter((service) =>
-    service.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const handleSelectService = (service: string) => {
+    
     return () => {
       setServiceSelected(service);
     };
   };
 
   const handleGetTicket = (service: string) => {
-    // Call the API to get the ticket
-    // const ticket = await getTicket(serviceSelected);
     return () => {
       props.handleTicket(service);
       setShowModal(true);
@@ -57,13 +54,13 @@ export default function GetTicketComponent(props: {
         </Row>
         <Container className="services-container w-100 flex-grow-1 overflow-auto">
           <Row>
-            {filteredServices.map((service, index) => (
+            {props.services.map((service, index) => (
               <Col key={index} xs={6} md={3} className="mb-3">
                 <ServicesComponent
-                  service={service}
+                  service={service.serviceName} // Assuming 'name' is a string property of 'Service'
                   imageUrl={"https://via.placeholder.com/150"}
-                  onClick={handleSelectService(service)}
-                  isSelected={service === serviceSelected}
+                  onClick={handleSelectService(service.serviceId)}
+                  isSelected={service.serviceId === serviceSelected}
                 />
               </Col>
             ))}
@@ -94,6 +91,8 @@ export default function GetTicketComponent(props: {
           <Modal.Title>Your ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          Your ticket number is: {props.ticket}
+          <br />
           QR code for ticket:
           <div className="mt-3 text-center">
             <QRCodeSVG
