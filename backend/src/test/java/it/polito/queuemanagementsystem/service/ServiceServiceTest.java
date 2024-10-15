@@ -4,7 +4,7 @@ import it.polito.queuemanagementsystem.dto.response.GetTicketResponseDTO;
 import it.polito.queuemanagementsystem.dto.response.QueueStatusResponseDTO;
 import it.polito.queuemanagementsystem.dto.response.ServiceResponseDTO;
 import it.polito.queuemanagementsystem.model.Counter;
-import it.polito.queuemanagementsystem.model.CounterService;
+import it.polito.queuemanagementsystem.model.CounterServiceEntity;
 import it.polito.queuemanagementsystem.model.CounterServiceId;
 import it.polito.queuemanagementsystem.model.Service;
 import it.polito.queuemanagementsystem.repository.CounterServiceRepository;
@@ -58,10 +58,10 @@ class ServiceServiceTest {
         Counter counter1 = new Counter(1L);  // Counter 1 that can serve the service
         Counter counter2 = new Counter(2L);  // Counter 2 that can serve the service
 
-        CounterService counterService1 = new CounterService(new CounterServiceId(1L, 5L), counter1, mockService);
-        CounterService counterService2 = new CounterService(new CounterServiceId(2L, 5L), counter2, mockService);
+        CounterServiceEntity counterServiceEntity1 = new CounterServiceEntity(new CounterServiceId(1L, 5L), counter1, mockService);
+        CounterServiceEntity counterServiceEntity2 = new CounterServiceEntity(new CounterServiceId(2L, 5L), counter2, mockService);
 
-        when(counterServiceRepository.findByServiceId(5L)).thenReturn(List.of(counterService1, counterService2));
+        when(counterServiceRepository.findByServiceId(5L)).thenReturn(List.of(counterServiceEntity1, counterServiceEntity2));
 
         // Mocking that both counters can serve multiple services
         when(counterServiceRepository.countDistinctServicesForCounter(1L)).thenReturn(1);  // Counter 1 serves 1 service

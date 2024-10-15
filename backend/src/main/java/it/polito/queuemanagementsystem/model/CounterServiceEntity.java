@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CounterService {
+public class CounterServiceEntity {
 
     @EmbeddedId
     private CounterServiceId id;
