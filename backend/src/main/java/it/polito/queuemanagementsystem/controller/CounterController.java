@@ -22,14 +22,7 @@ public class CounterController {
 
     @GetMapping("/{id}/callnext")
     public ResponseEntity<NextCustomerResponseDTO> callNextCustomer(@PathVariable Long id) {
-        try {
-            NextCustomerResponseDTO nextCustomerInfo = counterService.callNextCustomer(id);
-            return ResponseEntity.ok(nextCustomerInfo);
-        } catch (Exception e) {
-            if (e.getMessage().contains("All queues are empty")) { // this sucks, TODO: create a custom exception
-                return ResponseEntity.ok(new NextCustomerResponseDTO(id, null, -1));
-            }
-            return ResponseEntity.badRequest().build();
-        }
+        NextCustomerResponseDTO nextCustomerInfo = counterService.callNextCustomer(id);
+        return ResponseEntity.ok(nextCustomerInfo);
     }
 }

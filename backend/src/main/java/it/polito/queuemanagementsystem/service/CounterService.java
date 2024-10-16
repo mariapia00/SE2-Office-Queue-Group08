@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.queuemanagementsystem.dto.response.NextCustomerResponseDTO;
+import it.polito.queuemanagementsystem.exception.CounterNotFoundException;
 import it.polito.queuemanagementsystem.model.CounterServiceEntity;
 import it.polito.queuemanagementsystem.model.Service;
 import it.polito.queuemanagementsystem.repository.CounterServiceRepository;
@@ -25,6 +26,9 @@ public class CounterService {
     public NextCustomerResponseDTO callNextCustomer(Long counterId) {
         // Find all services offered by the counter
         List<CounterServiceEntity> allServicesAvailable = counterServiceRepository.findByCounterId(counterId);
+        if (allServicesAvailable.isEmpty()) {
+            throw new CounterNotFoundException("Counter " + counterId + " does not exist");
+        }
 
         // Find all the services info
         List<Service> availableServicesInfo = new ArrayList<>();
