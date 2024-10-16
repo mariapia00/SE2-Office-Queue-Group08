@@ -21,4 +21,8 @@ public class CounterServiceEntity {
     @MapsId("serviceId")
     @JoinColumn(name = "service_id")
     private Service service;
+
+    public Long getServiceId() {
+        return id.getServiceId();
+    }
 }

@@ -16,4 +16,7 @@ public interface CounterServiceRepository extends JpaRepository<CounterServiceEn
 
     @Query("SELECT COUNT(DISTINCT cs.service) FROM CounterServiceEntity cs WHERE cs.counter.counterId = :counterId")
     int countDistinctServicesForCounter(Long counterId);
+
+    @Query("SELECT cs FROM CounterServiceEntity cs WHERE cs.counter.counterId = :counterId")
+    List<CounterServiceEntity> findByCounterId(Long counterId);
 }
