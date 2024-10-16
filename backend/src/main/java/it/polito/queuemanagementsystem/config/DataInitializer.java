@@ -43,8 +43,11 @@ public class DataInitializer implements CommandLineRunner {
 
         // Insert data into Counter table
         Counter counter1 = new Counter(null);
+        counter1.setCounterId(1L);
         Counter counter2 = new Counter(null);
+        counter2.setCounterId(2L);
         Counter counter3 = new Counter(null);
+        counter3.setCounterId(3L);
 
         counterRepository.saveAll(List.of(counter1, counter2, counter3));
 

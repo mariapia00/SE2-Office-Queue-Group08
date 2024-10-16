@@ -12,6 +12,7 @@ import it.polito.queuemanagementsystem.repository.ServiceRepository;
 import jakarta.transaction.Transactional;
 
 @org.springframework.stereotype.Service // TODO: rename the service model to ServiceEntity because I cant import this
+
 public class CounterService {
 
     private final ServiceRepository serviceRepository;

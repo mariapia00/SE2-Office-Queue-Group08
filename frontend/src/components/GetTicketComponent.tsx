@@ -1,21 +1,18 @@
-import { Col, Container, Row, Form, Modal, Button } from "react-bootstrap";
+import { Col, Container, Row, Modal, Button } from "react-bootstrap";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import "./GetTicketComponent.css";
+import Service from "../model/Service";
 
 export default function GetTicketComponent(props: {
-  services: string[];
+  services: Service[];
   ticket: string;
+  waitingTime: string;
   handleTicket: (service: string) => void;
   domain: string;
 }) {
-  const [searchQuery, setSearchQuery] = useState("");
   const [serviceSelected, setServiceSelected] = useState("");
   const [showModal, setShowModal] = useState(false);
-
-  const filteredServices = props.services.filter((service) =>
-    service.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const handleSelectService = (service: string) => {
     return () => {
@@ -24,8 +21,6 @@ export default function GetTicketComponent(props: {
   };
 
   const handleGetTicket = (service: string) => {
-    // Call the API to get the ticket
-    // const ticket = await getTicket(serviceSelected);
     return () => {
       props.handleTicket(service);
       setShowModal(true);
@@ -39,31 +34,20 @@ export default function GetTicketComponent(props: {
 
   return (
     <>
-      <Container className="d-flex flex-column align-items-center justify-content-center full-height">
+      <Container className="d-flex flex-column align-items-center justify-content-center full-height mt-3">
         <Row className="w-100">
           <Col>
             <h1 className="text-center w-100">Choose the service you need</h1>
           </Col>
         </Row>
-        <Row className="w-100 mb-3">
-          <Col>
-            <Form.Control
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </Col>
-        </Row>
-        <Container className="services-container w-100 flex-grow-1 overflow-auto">
+        <Container className="services-container w-100 flex-grow-1 overflow-auto mt-3">
           <Row>
-            {filteredServices.map((service, index) => (
+            {props.services.map((service, index) => (
               <Col key={index} xs={6} md={3} className="mb-3">
                 <ServicesComponent
-                  service={service}
-                  imageUrl={"https://via.placeholder.com/150"}
-                  onClick={handleSelectService(service)}
-                  isSelected={service === serviceSelected}
+                  service={service.serviceName} // Assuming 'name' is a string property of 'Service'
+                  onClick={handleSelectService(service.serviceId)}
+                  isSelected={service.serviceId === serviceSelected}
                 />
               </Col>
             ))}
@@ -94,6 +78,10 @@ export default function GetTicketComponent(props: {
           <Modal.Title>Your ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          Your ticket number is:<strong> {props.ticket}</strong>
+          <br />
+          Estimated waiting time: <strong>{props.waitingTime}</strong>
+          <br />
           QR code for ticket:
           <div className="mt-3 text-center">
             <QRCodeSVG
@@ -114,7 +102,6 @@ export default function GetTicketComponent(props: {
 
 function ServicesComponent(props: {
   service: string;
-  imageUrl: string;
   onClick: () => void;
   isSelected: boolean;
 }) {
@@ -138,7 +125,6 @@ function ServicesComponent(props: {
       }}
     >
       <img
-        src={props.imageUrl}
         alt={props.service}
         style={{ maxHeight: "80px", marginBottom: "10px" }}
       />
