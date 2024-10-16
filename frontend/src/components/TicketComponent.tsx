@@ -1,9 +1,9 @@
 import { QRCodeSVG } from "qrcode.react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
+import { useParams } from "react-router-dom"
 
-export default function TicketComponent(props: { ticketId: string; waitingTime: string }) {
+export default function TicketComponent() {
   const { ticketId } = useParams<{ ticketId: string }>();
 
   const handleDownloadPDF = () => {
@@ -12,8 +12,8 @@ export default function TicketComponent(props: { ticketId: string; waitingTime: 
     const margin = 10;
     const qrCodeSize = 50;
 
-    doc.text(`Your ticket number is: 111`, margin, 10);
-    doc.text(`Service: ${ticketId}`, margin, 20);
+    doc.text(`Your ticket number is: ${ticketId}`, margin, 10);
+  
 
     // Generate QR code as an image and add it to the PDF
     const qrCodeElement = document.querySelector("svg");
@@ -41,21 +41,11 @@ export default function TicketComponent(props: { ticketId: string; waitingTime: 
     <Container className="d-flex flex-column align-items-center justify-content-center full-height">
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h1>Your ticket number is: {props.ticketId} </h1>
-        </Col>
-      </Row>
-      <Row className="align-items-center justify-content-center">
-        <Col>
-          <h2>Estimated waiting time:  {props.waitingTime} minutes</h2>
-        </Col>
-      </Row>
-      <Row className="align-items-center justify-content-center">
-        <Col>
-          <h3>Service: {props.ticketId}</h3>
+          <h1>Your ticket id is: {ticketId} </h1>
         </Col>
       </Row>
       <Row>
-        <QRCodeSVG className="mt-3 " value={props.ticketId || ""} />
+        <QRCodeSVG className="mt-3 " value={ticketId || ""} />
       </Row>
       <Row>
         <Button variant="primary" className="mt-3" onClick={handleDownloadPDF}>

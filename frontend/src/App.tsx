@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import Service from "./model/Service";
 import API from "./API";
 
-const domain = "https://edbc-2001-b07-ac9-a10b-2521-b9c8-6006-6670.ngrok-free.app";
+const domain = "https://fowl-light-macaque.ngrok-free.app";
 
 
 function Home() {
@@ -45,16 +45,23 @@ function App() {
   }, [currentTicket]);
 
   useEffect(() => {
-    API.getAllServices()
-    .then((services) => setServices(
-      services.map((service => new Service(service.serviceId, service.serviceName)))
-    ));
-  } , []);
+    API.getAllServices().then((services) =>
+      setServices(
+        services.map(
+          (service) => new Service(service.serviceId, service.serviceName)
+        )
+      )
+    );
+  }, []);
 
-  const handleTicket = async (service: string) => {
-    const ticketResponse = await API.getTicket(service);
-    setTicket(String(ticketResponse.ticketId));
-    setWaitingTime(String(ticketResponse.waitingTime));
+  const handleTicket = async (serviceId: string) => {
+    try {
+      const ticketData = await API.getTicket(serviceId);
+      setTicket(String(ticketData.ticketId));
+      setWaitingTime(String(ticketData.waitingTime));
+    } catch (error) {
+      console.error("Failed to get ticket:", error);
+    }
   };
 
   return (
@@ -91,4 +98,3 @@ function App() {
 }
 
 export default App;
-
