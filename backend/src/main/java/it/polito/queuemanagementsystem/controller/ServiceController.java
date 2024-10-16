@@ -23,6 +23,7 @@ public class ServiceController {
     // Endpoint to get the current queue lengths for all services
     @GetMapping("/queues/status")
     public ResponseEntity<List<QueueStatusResponseDTO>> getQueuesStatus() {
+        System.out.println("Getting queues status");
         List<QueueStatusResponseDTO> queuesStatus = serviceService.getQueuesStatus();
         return ResponseEntity.ok(queuesStatus); // Return 200 OK with the list of queue statuses
     }

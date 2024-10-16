@@ -10,6 +10,7 @@ import it.polito.queuemanagementsystem.repository.CounterServiceRepository;
 import it.polito.queuemanagementsystem.repository.ServiceRepository;
 import jakarta.transaction.Transactional;
 
+@org.springframework.stereotype.Service
 public class CounterService {
 
     private final ServiceRepository serviceRepository;

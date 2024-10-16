@@ -22,6 +22,7 @@ public class CounterController {
 
     @GetMapping("/{id}/callnext")
     public ResponseEntity<NextCustomerResponseDTO> callNextCustomer(@PathVariable Long id) {
+        System.out.println("Calling next customer for counter " + id);
         NextCustomerResponseDTO nextCustomerInfo = counterService.callNextCustomer(id);
         return ResponseEntity.ok(nextCustomerInfo);
     }

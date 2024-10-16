@@ -15,9 +15,17 @@ const NextCustomerComponent = () => {
         console.log(data);
     };
 
-    const handleCallNextCustomer = () => {
-        const nextTicket = { ticketId: currentTicket.ticketId + 1, counterID: currentTicket.counterID };
-        setCurrentTicket(nextTicket);
+    const handleCallNextCustomer = async () => {
+        try{
+            const nextCustomer = await API.getNextClientByCounterId(1);
+            if(nextCustomer){
+                setCurrentTicket(nextCustomer);
+            } else {
+                console.error('Failed to call next customer');
+            }
+        } catch(error) {
+            console.error('Failed to call next customer:', error);
+        }
     };
 
     useEffect(() => {

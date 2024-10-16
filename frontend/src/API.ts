@@ -27,6 +27,22 @@ const getQueueStatus = async () => {
     }
 }
 
+const getNextClientByCounterId = async (counterId: number) => {
+    try{
+        console.log("Counter ID: ", counterId);
+        const response = await fetch(`${BASEURL}/v1/counters/${counterId}/callnext`);
+        if(!response.ok) {
+            throw new Error('Failed to fetch next client');
+        }
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch(error) {
+        console.error('Error fetching next client:', error);
+        return null;
+    }
+}
+
 const getTicket = async (serviceId: string): Promise<Ticket> => {
     console.log("Service type: ", serviceId);
     return await fetch(BASEURL + '/v1/tickets/generate', {
@@ -74,6 +90,7 @@ const API = {
     getTicket,
     //callNextClient
     getQueueStatus,
+    getNextClientByCounterId,
 };
 
 export default API;
