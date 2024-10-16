@@ -3,13 +3,13 @@ import Service from "./model/Service";
 
 const BASEURL = 'http://localhost:8080/api';
 
+// API to get all services
 const getAllServices = async (): Promise<Service[]> => {
-    console.log("Getting all services");
-    return await fetch(BASEURL + '/v1/tickets/allServices')
+    return await fetch(BASEURL + '/v1/services')
         .then(handleInvalidResponse)
         .then(response => response.json())
         .then(data => {
-            return data.services.map((service: { serviceId: string, serviceName: string }) => new Service(service.serviceId, service.serviceName));
+            return data.map((service: { serviceId: string, serviceName: string }) => new Service(service.serviceId, service.serviceName));
         });
 };
 
@@ -43,8 +43,9 @@ const getNextClientByCounterId = async (counterId: number) => {
     }
 }
 
+
+// API call to get a ticket
 const getTicket = async (serviceId: string): Promise<Ticket> => {
-    console.log("Service type: ", serviceId);
     return await fetch(BASEURL + '/v1/tickets/generate', {
         method: 'POST',
         headers: {
@@ -59,8 +60,8 @@ const getTicket = async (serviceId: string): Promise<Ticket> => {
     });
 };
 
-/*
-const callNextClient = async (counterID: string): Promise<Ticket> => {
+// API to call the next customer by the officer (counterID) that returns the ticket number
+const callNextClient = async (counterID: string): Promise<Object> => {
     return await fetch(BASEURL + '/customer/next', {
         method: 'POST',
         headers: {
@@ -70,8 +71,21 @@ const callNextClient = async (counterID: string): Promise<Ticket> => {
     })
     .then(handleInvalidResponse)
     .then(response => response.json());
+    
 };
-*/
+
+// Each time a new ticket is issued or one queue changes, call this to get queue lengths
+const getQueuesLength = async (): Promise<Object[]> => {
+    return await fetch(BASEURL + '/v1/services/queues/status')
+        .then(handleInvalidResponse)
+        .then(response => response.json())
+        .then(data => {
+            return data.map((service: { serviceName: string, queueLength: number }) => {
+                return { serviceName: service.serviceName, queueLength: service.queueLength };
+            });
+        });
+};
+
 // Helper function to handle invalid responses
 function handleInvalidResponse(response: Response): Response {
     if (!response.ok) { 
@@ -91,6 +105,8 @@ const API = {
     //callNextClient
     getQueueStatus,
     getNextClientByCounterId,
+    callNextClient,
+    getQueuesLength
 };
 
 export default API;
