@@ -44,6 +44,10 @@ public class CounterService {
                 })
                 .orElseThrow(() -> new RuntimeException("No services available")); // this should never happen ig
 
+        nextService.setQueueLength(nextService.getQueueLength() - 1);
+        nextService.setLastTicketNumber(nextService.getLastTicketNumber() + 1);
+        serviceRepository.save(nextService);
+
         return new NextCustomerResponseDTO(counterId, nextService.getServiceName(), nextService.getQueueLength());
     }
 }
