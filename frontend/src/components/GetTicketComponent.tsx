@@ -46,7 +46,6 @@ export default function GetTicketComponent(props: {
               <Col key={index} xs={6} md={3} className="mb-3">
                 <ServicesComponent
                   service={service.serviceName} // Assuming 'name' is a string property of 'Service'
-                  imageUrl={"https://via.placeholder.com/150"}
                   onClick={handleSelectService(service.serviceId)}
                   isSelected={service.serviceId === serviceSelected}
                 />
@@ -79,7 +78,7 @@ export default function GetTicketComponent(props: {
           <Modal.Title>Your ticket</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Your ticket number is:<strong> {props.ticket}</strong> 
+          Your ticket number is:<strong> {props.ticket}</strong>
           <br />
           Estimated waiting time: <strong>{props.waitingTime}</strong>
           <br />
@@ -103,7 +102,6 @@ export default function GetTicketComponent(props: {
 
 function ServicesComponent(props: {
   service: string;
-  imageUrl: string;
   onClick: () => void;
   isSelected: boolean;
 }) {
@@ -127,7 +125,6 @@ function ServicesComponent(props: {
       }}
     >
       <img
-        src={props.imageUrl}
         alt={props.service}
         style={{ maxHeight: "80px", marginBottom: "10px" }}
       />
