@@ -52,13 +52,7 @@ function App() {
       <Route path="*" element={<NotFoundComponent />} />
       <Route
         path="/tickets/:ticketId"
-        element={
-          ticket ? (
-            <TicketComponent ticket={ticket} waitingTime={waitingTime} />
-          ) : (
-            <NotFoundComponent />
-          )
-        }
+        element={<TicketComponent />}
       />
     </Routes>
   );
