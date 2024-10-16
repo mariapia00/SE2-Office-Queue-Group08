@@ -2,59 +2,58 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
 import API from '../API';
 
-const NextCustomerComponent = () => {
+const NextCustomerComponent = ({ currentTicket, setCurrentTicket }) => {
     const [queues, setQueues] = useState([]);
-    const [currentTicket, setCurrentTicket] = useState({ ticketId: 101, counterID: 1 });
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     const fetchQueuesLength = async () => {
-        setLoading(true); 
+        setLoading(true);
         const data = await API.getQueueStatus();
-        setQueues(data); 
-        setLoading(false); 
+        setQueues(data);
+        setLoading(false);
         console.log(data);
     };
 
     const handleCallNextCustomer = async () => {
-        try{
+        try {
             const nextCustomer = await API.getNextClientByCounterId(1);
-            if(nextCustomer){
-                setCurrentTicket(nextCustomer);
+            if (nextCustomer) {
+                setCurrentTicket(nextCustomer);  // Update the current ticket
             } else {
                 console.error('Failed to call next customer');
             }
-        } catch(error) {
+        } catch (error) {
             console.error('Failed to call next customer:', error);
         }
     };
 
     useEffect(() => {
         fetchQueuesLength();
-    }, []);
+    }, [currentTicket]);
 
     return (
         <div className="container mt-4">
-            <Card>
+            <Card className="text-center" style={{ border: '1px solid #007bff', borderRadius: '10px' }}>
                 <Card.Body>
-                    <Card.Title>Next Customer</Card.Title>
+                    <Card.Title className="mb-4" style={{ color: '#007bff' }}>Next Customer</Card.Title>
                     {loading ? (
-                        <Spinner animation="border" />
+                        <Spinner animation="border" variant="primary" />
                     ) : (
                         <div>
-                            <Card.Text>
+                            <Card.Text className="mb-4" style={{ fontSize: '1.2rem' }}>
                                 <strong>Current Ticket:</strong> {currentTicket ? currentTicket.ticketId : 'None'}
                             </Card.Text>
-                            <Button variant="primary" onClick={handleCallNextCustomer}>
-                                Call Next Customer
-                            </Button>
-                            <Card.Subtitle className="mt-3 mb-2">Queue Lengths:</Card.Subtitle>
-                            <ListGroup>
+                            <Card.Subtitle className="mb-3" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Queue Lengths:</Card.Subtitle>
+                            <ListGroup className="mb-4" style={{ maxWidth: '300px', margin: '0 auto' }}> {/* Limita la larghezza e centra */}
                                 {queues.map((queue) => (
-                                    <ListGroup.Item key={queue.serviceName}>
+                                    <ListGroup.Item key={queue.serviceName} style={{ fontSize: '1.1rem' }}>
                                         {queue.serviceName} - Length: {queue.queueLength}
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
+                            <Button variant="primary" onClick={handleCallNextCustomer}>
+                                Call Next Customer
+                            </Button>
                         </div>
                     )}
                 </Card.Body>
@@ -64,4 +63,6 @@ const NextCustomerComponent = () => {
 };
 
 export default NextCustomerComponent;
+
+
 

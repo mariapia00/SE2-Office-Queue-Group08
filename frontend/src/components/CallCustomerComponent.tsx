@@ -1,39 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Card, Table } from 'react-bootstrap';
 
-const PostOfficeDisplay = () => {
-  // Dati statici
-  const data = [
-    { counter: 1, service: 'Service 1', ticket: 'A001' },
-    { counter: 2, service: 'Service 2', ticket: 'B002' },
-    { counter: 3, service: 'Service 3', ticket: 'C003' },
-    { counter: 4, service: 'Service 4', ticket: 'D004' },
-  ];
+const CallCustomer = ({ currentTicket }) => {
+  const [counters, setCounters] = useState([
+    { counterId: 1, serviceName: null, ticketId: null },
+    { counterId: 2, serviceName: null, ticketId: null },
+    { counterId: 3, serviceName: null, ticketId: null },
+  ]);
+
+  useEffect(() => {
+    if (currentTicket) {
+      // Aggiorna il counter corrispondente al ticket corrente
+      setCounters((prevCounters) =>
+        prevCounters.map((counter) =>
+          counter.counterId === currentTicket.counterId
+            ? {
+                ...counter,
+                serviceName: currentTicket.serviceName,
+                ticketId: currentTicket.ticketId,
+              }
+            : counter
+        )
+      );
+    }
+  }, [currentTicket]);
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4">Principle Display</h2>
-      <table className="table table-striped table-bordered">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">Counter</th>
-            <th scope="col">Service</th>
-            <th scope="col">Ticket code</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.counter}</td>
-              <td>{item.service}</td>
-              <td>{item.ticket}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Card className="text-center" style={{ border: '1px solid #007bff', borderRadius: '10px' }}>
+        <Card.Body>
+          <Card.Title className="mb-4" style={{ color: '#007bff' }}>
+            Next Customer Details by Counter
+          </Card.Title>
+          <div className="table-responsive">
+            <Table striped bordered hover className="mx-auto" style={{ maxWidth: '600px' }}>
+              <thead>
+                <tr>
+                  <th>Counter ID</th>
+                  <th>Service Name</th>
+                  <th>Ticket ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {counters.map((counter) => (
+                  <tr key={counter.counterId}>
+                    <td className="text-center">{counter.counterId}</td>
+                    <td className="text-center">{counter.serviceName || 'No service yet'}</td>
+                    <td className="text-center">{counter.ticketId || 'No ticket yet'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };
 
-export default PostOfficeDisplay;
+export default CallCustomer;
+
 
 

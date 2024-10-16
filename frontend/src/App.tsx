@@ -5,10 +5,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import NotFoundComponent from './components/NotFoundComponent'
 import GetTicketComponent from './components/GetTicketComponent'
-import CallCustomerComponent from './components/CallCustomerComponent'
+import CallCustomerComponent from './components/CallCustomerComponent';
 import NextCustomerComponent from './components/NextCustomerComponent';
 import TicketComponent from './components/TicketComponent';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const domain = "https://fowl-light-macaque.ngrok-free.app";
 
@@ -41,12 +42,18 @@ function Home() {
 
 function App() {
   const [ticket, setTicket] = useState("");
+  const [currentTicket, setCurrentTicket] = useState(null);
+
+  useEffect(() => {
+    console.log("Current Ticket in App:", currentTicket);
+  }, [currentTicket]);
 
   const handleTicket = async (service: string) => {
     // Call the API to get the ticket
     // const ticket = await getTicket(service);
     setTicket(service.replace(/\s+/g, ""));
   };
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -61,8 +68,17 @@ function App() {
           />
         }
       />
-      <Route path="/call-customer" element={<CallCustomerComponent />} />
-      <Route path="/next-customer" element={<NextCustomerComponent />} />
+      <Route path="/call-customer" element={
+        <CallCustomerComponent 
+        currentTicket={currentTicket}
+        />} 
+      />
+      <Route path="/next-customer" element={
+        <NextCustomerComponent 
+        currentTicket={currentTicket}
+        setCurrentTicket={setCurrentTicket}
+        />} 
+      />
       <Route path="/tickets/:ticketId" element={<TicketComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </Routes>
