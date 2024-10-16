@@ -33,22 +33,28 @@ public class CounterService {
                     .orElseThrow(() -> new RuntimeException("Service not found")));
         }
 
-        // Find the service with the longest queue, if two or more have the same length,
-        // return the one with the lowest service time
-        Service nextService = availableServicesInfo.stream()
-                .max((s1, s2) -> {
-                    int queueComparison = Integer.compare(s1.getQueueLength(), s2.getQueueLength());
-                    if (queueComparison == 0) {
-                        return Integer.compare(s1.getServiceTime(), s2.getServiceTime());
-                    }
-                    return queueComparison;
-                })
-                .orElseThrow(() -> new RuntimeException("No services available")); // this should never happen ig
+        // find if all queues are empty
+        if (availableServicesInfo.stream().allMatch(service -> service.getQueueLength() == 0)) {
+            throw new RuntimeException("All queues are empty");
+        } else {
+            // Otherwise find the service with the longest queue, if two or more have the
+            // same length,
+            // return the one with the lowest service time
+            Service nextService = availableServicesInfo.stream()
+                    .max((s1, s2) -> {
+                        int queueComparison = Integer.compare(s1.getQueueLength(), s2.getQueueLength());
+                        if (queueComparison == 0) {
+                            return Integer.compare(s1.getServiceTime(), s2.getServiceTime());
+                        }
+                        return queueComparison;
+                    })
+                    .orElseThrow(() -> new RuntimeException("No services available")); // this should never happen ig
 
-        nextService.setQueueLength(nextService.getQueueLength() - 1);
-        nextService.setLastTicketNumber(nextService.getLastTicketNumber() + 1);
-        serviceRepository.save(nextService);
-
-        return new NextCustomerResponseDTO(counterId, nextService.getServiceName(), nextService.getQueueLength());
+            // Update the queue length and ticket number
+            nextService.setQueueLength(nextService.getQueueLength() - 1);
+            nextService.setLastTicketNumber(nextService.getLastTicketNumber() + 1);
+            serviceRepository.save(nextService);
+            return new NextCustomerResponseDTO(counterId, nextService.getServiceName(), nextService.getQueueLength());
+        }
     }
 }
