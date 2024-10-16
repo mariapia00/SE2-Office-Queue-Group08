@@ -26,16 +26,4 @@ public class Service {
     private Integer averageServiceTime;
     private Integer queueLength = 0; // Default to 0 for a new service
     private Integer lastTicketNumber = 0; // Default to 0 for a new service
-
-    public int getServiceTime() {
-        return averageServiceTime;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public Integer getQueueLength() {
-        return queueLength;
-    }
 }

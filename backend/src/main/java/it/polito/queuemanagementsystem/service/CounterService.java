@@ -48,7 +48,7 @@ public class CounterService {
                     .max((s1, s2) -> {
                         int queueComparison = Integer.compare(s1.getQueueLength(), s2.getQueueLength());
                         if (queueComparison == 0) {
-                            return Integer.compare(s1.getServiceTime(), s2.getServiceTime());
+                            return Integer.compare(s1.getAverageServiceTime(), s2.getAverageServiceTime());
                         }
                         return queueComparison;
                     })
@@ -58,7 +58,8 @@ public class CounterService {
             nextService.setQueueLength(nextService.getQueueLength() - 1);
             nextService.setLastTicketNumber(nextService.getLastTicketNumber() + 1);
             serviceRepository.save(nextService);
-            return new NextCustomerResponseDTO(counterId, nextService.getServiceName(), nextService.getQueueLength());
+            return new NextCustomerResponseDTO(counterId, nextService.getServiceName(),
+                    nextService.getServiceAbbreviation() + "-" + nextService.getLastTicketNumber());
         }
     }
 }
