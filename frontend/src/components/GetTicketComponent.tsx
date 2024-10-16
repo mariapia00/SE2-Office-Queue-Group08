@@ -1,19 +1,16 @@
-import {
-  Col,
-  Container,
-  ListGroup,
-  Row,
-  Form,
-  Modal,
-  Button,
-} from "react-bootstrap";
+import { Col, Container, Row, Form, Modal, Button } from "react-bootstrap";
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import "./GetTicketComponent.css";
 
-export default function GetTicketComponent(props: { services: string[] }) {
+export default function GetTicketComponent(props: {
+  services: string[];
+  ticket: string;
+  handleTicket: (service: string) => void;
+  domain: string;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [serviceSelected, setServiceSelected] = useState("");
-  const [ticket, setTicket] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const filteredServices = props.services.filter((service) =>
@@ -30,13 +27,14 @@ export default function GetTicketComponent(props: { services: string[] }) {
     // Call the API to get the ticket
     // const ticket = await getTicket(serviceSelected);
     return () => {
-      setTicket(service);
+      props.handleTicket(service);
       setShowModal(true);
     };
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setServiceSelected("");
   };
 
   return (
@@ -51,33 +49,32 @@ export default function GetTicketComponent(props: { services: string[] }) {
           <Col>
             <Form.Control
               type="text"
-              placeholder="Search through our services"
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </Col>
         </Row>
-        <Row className="w-100 flex-grow-1 overflow-auto">
-          <Col>
-            <ListGroup className="w-100">
-              {filteredServices.map((service, index) => (
-                <ListGroup.Item
-                  action
-                  key={index}
+        <Container className="services-container w-100 flex-grow-1 overflow-auto">
+          <Row>
+            {filteredServices.map((service, index) => (
+              <Col key={index} xs={6} md={3} className="mb-3">
+                <ServicesComponent
+                  service={service}
+                  imageUrl={"https://via.placeholder.com/150"}
                   onClick={handleSelectService(service)}
-                  active={service === serviceSelected}
-                >
-                  {service}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Col>
-        </Row>
-        <Row className="w-100 d-flex justify-content-center mb-3">
+                  isSelected={service === serviceSelected}
+                />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+        <Row className="w-100 d-flex justify-content-center mb-3 mt-3">
           <Col className="d-flex justify-content-center">
             <Button
               className="btn btn-primary btn-lg"
               onClick={handleGetTicket(serviceSelected)}
+              disabled={!serviceSelected}
             >
               Get ticket
             </Button>
@@ -99,15 +96,53 @@ export default function GetTicketComponent(props: { services: string[] }) {
         <Modal.Body>
           QR code for ticket:
           <div className="mt-3 text-center">
-            <img src="https://via.placeholder.com/150" alt="QR code" />
+            <QRCodeSVG
+              value={props.domain + `/tickets/${props.ticket}`} // Update the URL every time you run ngrok
+              size={128}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseModal}>
-            Close
+          <Button variant="success" onClick={handleCloseModal}>
+            Done
           </Button>
         </Modal.Footer>
       </Modal>
     </>
+  );
+}
+
+function ServicesComponent(props: {
+  service: string;
+  imageUrl: string;
+  onClick: () => void;
+  isSelected: boolean;
+}) {
+  return (
+    <Button
+      className={`service-button ${props.isSelected ? "selected" : ""}`}
+      onClick={props.onClick}
+      style={{
+        width: "100%",
+        height: "150px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "10px",
+        border: props.isSelected ? "2px solid #007bff" : "1px solid #ddd",
+        borderRadius: "8px",
+        cursor: "pointer",
+        backgroundColor: props.isSelected ? "#e9f5ff" : "#fff",
+        color: "black",
+      }}
+    >
+      <img
+        src={props.imageUrl}
+        alt={props.service}
+        style={{ maxHeight: "80px", marginBottom: "10px" }}
+      />
+      <span>{props.service}</span>
+    </Button>
   );
 }

@@ -7,8 +7,19 @@ import NotFoundComponent from './components/NotFoundComponent'
 import GetTicketComponent from './components/GetTicketComponent'
 import CallCustomerComponent from './components/CallCustomerComponent'
 import NextCustomerComponent from './components/NextCustomerComponent';
+import TicketComponent from './components/TicketComponent';
+import { useState } from 'react';
 
-const services = ["Service 1", "Service 2", "Service 3", "Service 4", "Service 5"]; // Example services
+const domain = "https://fowl-light-macaque.ngrok-free.app";
+
+const services = [
+  "Package Delivery",
+  "Tax Payments",
+  "Public Administration Payments",
+  "Banking Services",
+  "Passport Issuance",
+  "Telecommunication Services",
+]; // Example services
 
 function Home() {
   return (
@@ -29,12 +40,30 @@ function Home() {
 }
 
 function App() {
+  const [ticket, setTicket] = useState("");
+
+  const handleTicket = async (service: string) => {
+    // Call the API to get the ticket
+    // const ticket = await getTicket(service);
+    setTicket(service.replace(/\s+/g, ""));
+  };
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/get-ticket" element={<GetTicketComponent services={services} />} />
+      <Route
+        path="/get-ticket"
+        element={
+          <GetTicketComponent
+            services={services}
+            ticket={ticket}
+            handleTicket={handleTicket}
+            domain={domain}
+          />
+        }
+      />
       <Route path="/call-customer" element={<CallCustomerComponent />} />
       <Route path="/next-customer" element={<NextCustomerComponent />} />
+      <Route path="/tickets/:ticketId" element={<TicketComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </Routes>
   );
