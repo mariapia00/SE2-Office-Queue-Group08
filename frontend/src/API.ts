@@ -32,7 +32,7 @@ const getTicket = async (serviceId: string): Promise<Ticket> => {
 };
 
 // API to call the next customer by the officer (counterID) that returns the ticket number
-const callNextClient = async (counterID: string): Promise<Object> => {
+const callNextClient = async (counterID: string): Promise<object> => {
     return await fetch(BASEURL + '/customer/next', {
         method: 'POST',
         headers: {
@@ -46,7 +46,7 @@ const callNextClient = async (counterID: string): Promise<Object> => {
 };
 
 // Each time a new ticket is issued or one queue changes, call this to get queue lengths
-const getQueuesLength = async (): Promise<Object[]> => {
+const getQueuesLength = async (): Promise<object[]> => {
     return await fetch(BASEURL + '/v1/services/queues/status')
         .then(handleInvalidResponse)
         .then(response => response.json())

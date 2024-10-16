@@ -1,10 +1,16 @@
 import { QRCodeSVG } from "qrcode.react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 
-export default function TicketComponent(props: { ticketId: string; waitingTime: string }) {
-  const { ticketId } = useParams<{ ticketId: string }>();
+export default function TicketComponent(props: {
+  ticket: string;
+  waitingTime: string;
+}) {
+  const ticket: string = props.ticket;
+  const waitingTime: string = props.waitingTime;
+
+  console.log("Ticket:", ticket);
+  console.log("Waiting time:", waitingTime);
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
@@ -12,8 +18,8 @@ export default function TicketComponent(props: { ticketId: string; waitingTime: 
     const margin = 10;
     const qrCodeSize = 50;
 
-    doc.text(`Your ticket number is: 111`, margin, 10);
-    doc.text(`Service: ${ticketId}`, margin, 20);
+    doc.text(`Your ticket number is: ${ticket}`, margin, 10);
+    doc.text(`Estimated waiting time: ${waitingTime}`, margin, 20);
 
     // Generate QR code as an image and add it to the PDF
     const qrCodeElement = document.querySelector("svg");
@@ -41,21 +47,16 @@ export default function TicketComponent(props: { ticketId: string; waitingTime: 
     <Container className="d-flex flex-column align-items-center justify-content-center full-height">
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h1>Your ticket number is: {props.ticketId} </h1>
+          <h1>Your ticket id is: {ticket} </h1>
         </Col>
       </Row>
       <Row className="align-items-center justify-content-center">
         <Col>
-          <h2>Estimated waiting time:  {props.waitingTime} minutes</h2>
-        </Col>
-      </Row>
-      <Row className="align-items-center justify-content-center">
-        <Col>
-          <h3>Service: {props.ticketId}</h3>
+          <h2>Estimated waiting time: {waitingTime}</h2>
         </Col>
       </Row>
       <Row>
-        <QRCodeSVG className="mt-3 " value={props.ticketId || ""} />
+        <QRCodeSVG className="mt-3 " value={ticket || ""} />
       </Row>
       <Row>
         <Button variant="primary" className="mt-3" onClick={handleDownloadPDF}>
