@@ -35,7 +35,7 @@ const NextCustomerComponent = ({ currentTicket, setCurrentTicket }) => {
         <div className="container mt-4">
             <Card className="text-center" style={{ border: '1px solid #007bff', borderRadius: '10px' }}>
                 <Card.Body>
-                    <Card.Title className="mb-4" style={{ color: '#007bff' }}>Next Customer</Card.Title>
+                    <Card.Title className="mb-4" style={{ color: '#007bff' }}>Officer display</Card.Title>
                     {loading ? (
                         <Spinner animation="border" variant="primary" />
                     ) : (

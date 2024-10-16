@@ -30,7 +30,7 @@ const CallCustomer = ({ currentTicket }) => {
       <Card className="text-center" style={{ border: '1px solid #007bff', borderRadius: '10px' }}>
         <Card.Body>
           <Card.Title className="mb-4" style={{ color: '#007bff' }}>
-            Next Customer Details by Counter
+            Main display
           </Card.Title>
           <div className="table-responsive">
             <Table striped bordered hover className="mx-auto" style={{ maxWidth: '600px' }}>

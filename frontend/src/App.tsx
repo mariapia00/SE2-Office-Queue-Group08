@@ -21,13 +21,13 @@ function Home() {
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
       <div className="mb-4">
         <Link to="/get-ticket" className="btn btn-primary btn-lg m-2">
-          Get Ticket
+          Get a ticket
         </Link>
         <Link to="/call-customer" className="btn btn-secondary btn-lg m-2">
-          Call Customer
+          Main display
         </Link>
         <Link to="/next-customer" className="btn btn-success btn-lg m-2">
-          Next Customer
+          Officer display
         </Link>
       </div>
     </div>
