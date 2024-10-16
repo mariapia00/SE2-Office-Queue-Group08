@@ -37,7 +37,7 @@ public class CounterService {
         // return the one with the lowest service time
         Service nextService = availableServicesInfo.stream()
                 .max((s1, s2) -> {
-                    int queueComparison = Integer.compare(s2.getQueueLength(), s1.getQueueLength());
+                    int queueComparison = Integer.compare(s1.getQueueLength(), s2.getQueueLength());
                     if (queueComparison == 0) {
                         return Integer.compare(s1.getServiceTime(), s2.getServiceTime());
                     }
