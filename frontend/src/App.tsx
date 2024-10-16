@@ -20,7 +20,7 @@ const services = [
   "Banking Services",
   "Passport Issuance",
   "Telecommunication Services",
-]; // Example services
+]; 
 
 function Home() {
   return (
