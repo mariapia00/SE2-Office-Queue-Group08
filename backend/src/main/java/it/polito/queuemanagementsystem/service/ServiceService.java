@@ -5,7 +5,7 @@ import it.polito.queuemanagementsystem.dto.response.GetTicketResponseDTO;
 import it.polito.queuemanagementsystem.dto.response.QueueStatusResponseDTO;
 import it.polito.queuemanagementsystem.dto.response.ServiceResponseDTO;
 import it.polito.queuemanagementsystem.model.Counter;
-import it.polito.queuemanagementsystem.model.CounterService;
+import it.polito.queuemanagementsystem.model.CounterServiceEntity;
 import it.polito.queuemanagementsystem.model.Service;
 import it.polito.queuemanagementsystem.repository.CounterServiceRepository;
 import it.polito.queuemanagementsystem.repository.ServiceRepository;
@@ -33,8 +33,8 @@ public class ServiceService {
         // Increment the last ticket number (before updating the queue length)
         Integer newTicketNumber = service.getLastTicketNumber() + 1;
 
-        // Get the CounterService entities that represent counters serving this service
-        List<CounterService> availableCounters = counterServiceRepository.findByServiceId(serviceId);
+        // Get the CounterServiceEntity entities that represent counters serving this service
+        List<CounterServiceEntity> availableCounters = counterServiceRepository.findByServiceId(serviceId);
 
         // Calculate waiting time based on the provided formula
         double waitingTimeInMinutes = calculateWaitingTime(service, availableCounters);
@@ -57,15 +57,15 @@ public class ServiceService {
     }
 
     // Method to calculate waiting time using the given formula (returns time in minutes)
-    private double calculateWaitingTime(Service service, List<CounterService> availableCounters) {
+    private double calculateWaitingTime(Service service, List<CounterServiceEntity> availableCounters) {
         int nr = service.getQueueLength(); // Number of people in the queue for this service
         int tr = service.getAverageServiceTime(); // Service time for this request type
 
         double denominatorSum = 0;
 
-        // Loop through all CounterService entities that link counters with the requested service
-        for (CounterService counterService : availableCounters) {
-            Counter counter = counterService.getCounter();
+        // Loop through all CounterServiceEntity entities that link counters with the requested service
+        for (CounterServiceEntity counterServiceEntity : availableCounters) {
+            Counter counter = counterServiceEntity.getCounter();
             int ki = counterServiceRepository.countDistinctServicesForCounter(counter.getCounterId()); // Number of services this counter can serve
 
             denominatorSum += 1.0 / ki; // If this counter can serve this request type

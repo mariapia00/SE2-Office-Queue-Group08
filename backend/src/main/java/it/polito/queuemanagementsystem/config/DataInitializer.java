@@ -1,7 +1,7 @@
 package it.polito.queuemanagementsystem.config;
 
 import it.polito.queuemanagementsystem.model.Counter;
-import it.polito.queuemanagementsystem.model.CounterService;
+import it.polito.queuemanagementsystem.model.CounterServiceEntity;
 import it.polito.queuemanagementsystem.model.CounterServiceId;
 import it.polito.queuemanagementsystem.model.Service;
 import it.polito.queuemanagementsystem.repository.CounterRepository;
@@ -43,18 +43,21 @@ public class DataInitializer implements CommandLineRunner {
 
         // Insert data into Counter table
         Counter counter1 = new Counter(null);
+        counter1.setCounterId(1L);
         Counter counter2 = new Counter(null);
+        counter2.setCounterId(2L);
         Counter counter3 = new Counter(null);
+        counter3.setCounterId(3L);
 
         counterRepository.saveAll(List.of(counter1, counter2, counter3));
 
-        // Insert data into CounterService table
-        CounterService cs1 = new CounterService(new CounterServiceId(counter1.getCounterId(), service1.getServiceId()), counter1, service1);
-        CounterService cs2 = new CounterService(new CounterServiceId(counter2.getCounterId(), service2.getServiceId()), counter2, service2);
-        CounterService cs3 = new CounterService(new CounterServiceId(counter3.getCounterId(), service5.getServiceId()), counter3, service5);
-        CounterService cs4 = new CounterService(new CounterServiceId(counter1.getCounterId(), service4.getServiceId()), counter1, service4);
-        CounterService cs5 = new CounterService(new CounterServiceId(counter2.getCounterId(), service5.getServiceId()), counter2, service5);
-        CounterService cs6 = new CounterService(new CounterServiceId(counter1.getCounterId(), service6.getServiceId()), counter1, service6);
+        // Insert data into CounterServiceEntity table
+        CounterServiceEntity cs1 = new CounterServiceEntity(new CounterServiceId(counter1.getCounterId(), service1.getServiceId()), counter1, service1);
+        CounterServiceEntity cs2 = new CounterServiceEntity(new CounterServiceId(counter2.getCounterId(), service2.getServiceId()), counter2, service2);
+        CounterServiceEntity cs3 = new CounterServiceEntity(new CounterServiceId(counter3.getCounterId(), service5.getServiceId()), counter3, service5);
+        CounterServiceEntity cs4 = new CounterServiceEntity(new CounterServiceId(counter1.getCounterId(), service4.getServiceId()), counter1, service4);
+        CounterServiceEntity cs5 = new CounterServiceEntity(new CounterServiceId(counter2.getCounterId(), service5.getServiceId()), counter2, service5);
+        CounterServiceEntity cs6 = new CounterServiceEntity(new CounterServiceId(counter1.getCounterId(), service6.getServiceId()), counter1, service6);
 
         counterServiceRepository.saveAll(List.of(cs1, cs2, cs3, cs4, cs5, cs6));
     }

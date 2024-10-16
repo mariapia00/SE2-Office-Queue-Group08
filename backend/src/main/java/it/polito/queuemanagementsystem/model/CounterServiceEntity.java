@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CounterService {
+public class CounterServiceEntity {
 
     @EmbeddedId
     private CounterServiceId id;
@@ -21,4 +21,8 @@ public class CounterService {
     @MapsId("serviceId")
     @JoinColumn(name = "service_id")
     private Service service;
+
+    public Long getServiceId() {
+        return id.getServiceId();
+    }
 }

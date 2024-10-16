@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "SERVICE")
 public class Service {
 
-    //This class include information about service and its own queue
+    // This class include information about service and its own queue
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceId;
@@ -26,4 +26,16 @@ public class Service {
     private Integer averageServiceTime;
     private Integer queueLength = 0; // Default to 0 for a new service
     private Integer lastTicketNumber = 0; // Default to 0 for a new service
+
+    public int getServiceTime() {
+        return averageServiceTime;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public Integer getQueueLength() {
+        return queueLength;
+    }
 }
