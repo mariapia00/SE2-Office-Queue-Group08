@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table } from 'react-bootstrap';
+import { Card, Table, ListGroup, Spinner } from 'react-bootstrap';
+import API from '../API';  // Assumendo che esista un'API per ottenere la lunghezza delle code
 
 const CallCustomer = ({ currentTicket }) => {
   const [counters, setCounters] = useState([
@@ -7,6 +8,25 @@ const CallCustomer = ({ currentTicket }) => {
     { counterId: 2, serviceName: null, ticketId: null },
     { counterId: 3, serviceName: null, ticketId: null },
   ]);
+  const [queues, setQueues] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Funzione per ottenere la lunghezza delle code
+    const fetchQueuesLength = async () => {
+      try {
+        setLoading(true);
+        const data = await API.getQueueStatus();
+        setQueues(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch queues:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchQueuesLength();
+  }, []);
 
   useEffect(() => {
     if (currentTicket) {
@@ -52,6 +72,28 @@ const CallCustomer = ({ currentTicket }) => {
               </tbody>
             </Table>
           </div>
+
+          {/* Sezione per la lunghezza delle code */}
+          <Card.Subtitle className="mt-4 mb-2" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+            Queue Lengths
+          </Card.Subtitle>
+          {loading ? (
+            <Spinner animation="border" variant="primary" />
+          ) : (
+            <ListGroup className="mb-4" style={{ maxWidth: '300px', margin: '0 auto' }}>
+              {queues.length > 0 ? (
+                queues.map((queue) => (
+                  <ListGroup.Item key={queue.serviceName} style={{ fontSize: '1.1rem' }}>
+                    {queue.serviceName} - Length: {queue.queueLength}
+                  </ListGroup.Item>
+                ))
+              ) : (
+                <ListGroup.Item style={{ fontSize: '1.1rem' }}>
+                  No queues available
+                </ListGroup.Item>
+              )}
+            </ListGroup>
+          )}
         </Card.Body>
       </Card>
     </div>
@@ -59,6 +101,3 @@ const CallCustomer = ({ currentTicket }) => {
 };
 
 export default CallCustomer;
-
-
-
