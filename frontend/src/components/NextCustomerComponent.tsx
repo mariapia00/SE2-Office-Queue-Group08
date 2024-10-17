@@ -49,7 +49,7 @@ const NextCustomerComponent = ({ currentTicket, setCurrentTicket }) => {
                                 <strong>Current Ticket:</strong> {currentTicket ? currentTicket.ticketId : 'None'}
                             </Card.Text>
                             <Card.Subtitle className="mb-3" style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Queue Lengths:</Card.Subtitle>
-                            <ListGroup className="mb-4" style={{ maxWidth: '300px', margin: '0 auto' }}>
+                            <ListGroup className="mb-4" style={{ maxWidth: '500px', margin: '0 auto' }}>
                                 {filteredQueues.length > 0 ? (
                                     filteredQueues.map((queue) => (
                                         <ListGroup.Item key={queue.serviceName} style={{ fontSize: '1.1rem' }}>

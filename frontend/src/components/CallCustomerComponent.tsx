@@ -80,7 +80,7 @@ const CallCustomer = ({ currentTicket }) => {
           {loading ? (
             <Spinner animation="border" variant="primary" />
           ) : (
-            <ListGroup className="mb-4" style={{ maxWidth: '300px', margin: '0 auto' }}>
+            <ListGroup className="mb-4" style={{ maxWidth: '500px', margin: '0 auto' }}>
               {queues.length > 0 ? (
                 queues.map((queue) => (
                   <ListGroup.Item key={queue.serviceName} style={{ fontSize: '1.1rem' }}>
