@@ -56,7 +56,7 @@ export default function GetTicketComponent(props: {
         <Row className="w-100 d-flex justify-content-center mb-3 mt-3">
           <Col className="d-flex justify-content-center">
             <Button
-              className="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg mb-3"
               onClick={handleGetTicket(serviceSelected)}
               disabled={!serviceSelected}
             >
