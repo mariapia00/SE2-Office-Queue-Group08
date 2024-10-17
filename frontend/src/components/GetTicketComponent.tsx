@@ -124,10 +124,6 @@ function ServicesComponent(props: {
         color: "black",
       }}
     >
-      <img
-        alt={props.service}
-        style={{ maxHeight: "80px", marginBottom: "10px" }}
-      />
       <span>{props.service}</span>
     </Button>
   );

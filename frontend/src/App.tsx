@@ -1,20 +1,19 @@
 // import { useState } from 'react'
-import './App.css'
-import { Routes, Route, Link } from "react-router-dom"
+import "./App.css";
+import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import NotFoundComponent from './components/NotFoundComponent'
-import GetTicketComponent from './components/GetTicketComponent'
-import CallCustomerComponent from './components/CallCustomerComponent';
-import NextCustomerComponent from './components/NextCustomerComponent';
-import TicketComponent from './components/TicketComponent';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import NotFoundComponent from "./components/NotFoundComponent";
+import GetTicketComponent from "./components/GetTicketComponent";
+import CallCustomerComponent from "./components/CallCustomerComponent";
+import NextCustomerComponent from "./components/NextCustomerComponent";
+import TicketComponent from "./components/TicketComponent";
+import { useState } from "react";
+import { useEffect } from "react";
 import Service from "./model/Service";
 import API from "./API";
 
 const domain = "https://fowl-light-macaque.ngrok-free.app";
-
 
 function Home() {
   return (
@@ -79,19 +78,20 @@ function App() {
           />
         }
       />
-      <Route path="/call-customer" element={
-        <CallCustomerComponent 
-        currentTicket={currentTicket}
-        />} 
+      <Route
+        path="/call-customer"
+        element={<CallCustomerComponent currentTicket={currentTicket} />}
       />
-      <Route path="/next-customer" element={
-        <NextCustomerComponent 
-        currentTicket={currentTicket}
-        setCurrentTicket={setCurrentTicket}
-        />} 
+      <Route
+        path="/next-customer"
+        element={
+          <NextCustomerComponent
+            currentTicket={currentTicket}
+            setCurrentTicket={setCurrentTicket}
+          />
+        }
       />
-      <Route path="/tickets/:ticketId" element={<TicketComponent ticketId={ticket} waitingTime={waitingTime}
-          />} />
+      <Route path="/tickets/:ticketId" element={<TicketComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </Routes>
   );
