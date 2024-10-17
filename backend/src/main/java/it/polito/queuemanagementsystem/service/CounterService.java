@@ -60,7 +60,7 @@ public class CounterService {
             nextService.setLastTicketNumber(nextService.getLastTicketNumber() + 1);
             serviceRepository.save(nextService);
             return new NextCustomerResponseDTO(counterId, nextService.getServiceName(),
-                    nextService.getServiceAbbreviation() + "-" + nextService.getLastTicketNumber());
+                    nextService.getServiceAbbreviation() + "-" + (nextService.getLastTicketNumber() - 1));
         }
     }
 }
